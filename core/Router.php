@@ -15,6 +15,7 @@ class Router
             'inventory' => ['InventoryController', 'showInventory', true],
             'inventory_update' => ['InventoryController', 'updateInventory', true],
             'inventory_delete' => ['InventoryController', 'deleteInventory', true],
+            'inventory_add' => ['InventoryController', 'addInventory', true],
             'logout' => [null, 'logout', false],
         ];
     }

@@ -3,7 +3,7 @@
 class InventoryModel
 {
   private $db;
-  
+
   public function __construct()
   {
     $this->db = Config::connect();
@@ -15,6 +15,28 @@ class InventoryModel
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
+
+  public function addInventoryData($name, $quantity, $description, $user_id)
+  {
+    // Prepare the INSERT statement
+    $stmt = $this->db->prepare("
+          INSERT INTO inventory (item_name, quantity, description, user_id)
+          VALUES (:name, :quantity, :description, :user_id)
+      ");
+
+    // Bind parameters
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+    $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+    // Execute the query
+    return $stmt->execute();
+  }
+
+
+
 
   public function updateInventoryData($name, $quantity, $description, $id)
   {
@@ -36,7 +58,7 @@ class InventoryModel
 
   public function deleteInventory($id)
   {
-    $stmt= $this->db->prepare("
+    $stmt = $this->db->prepare("
       DELETE FROM inventory WHERE id = :id
     ");
 

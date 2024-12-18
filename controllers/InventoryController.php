@@ -6,7 +6,7 @@ class InventoryController
 {
     private $inventoryModel;
 
-    // Constructor to initialize the model
+
     public function __construct()
     {
         $this->inventoryModel = new InventoryModel();
@@ -14,10 +14,9 @@ class InventoryController
 
     public function showInventory()
     {
-        // Fetch inventory data
         $inventoryData = $this->inventoryModel->getInventoryData();
 
-        // Pass data to the view
+
         require_once './views/inventory_view.php';
     }
 
@@ -30,24 +29,37 @@ class InventoryController
             $quantity = htmlspecialchars($_POST['quantity']);
             $description = htmlspecialchars($_POST['description']);
 
-            // Update inventory
             $result = $this->inventoryModel->updateInventoryData($name, $quantity, $description, $id);
-
-            // Check the update status
             isUpdateSuccess($result);
         }
     }
 
+
+    public function addInventory()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = htmlspecialchars($_POST['item_name']);
+            $quantity = htmlspecialchars($_POST['quantity']);
+            $description = htmlspecialchars($_POST['description']);
+            $user_id = htmlspecialchars($_POST['id']); // Ensure user_id is provided
+
+            // Check if user_id is valid (not empty)
+            if (!empty($user_id)) {
+                $result = $this->inventoryModel->addInventoryData($name, $quantity, $description, $user_id);
+                isUpdateSuccess($result);
+            } else {
+                echo "Error: user_id is required and must be valid.";
+            }
+        }
+    }
+
+
     public function deleteInventory()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Sanitize input
+
             $id = htmlspecialchars($_POST['id']);
-
-            // Delete the record
             $result = $this->inventoryModel->deleteInventory($id);
-
-            // Check the delete status
             isUpdateSuccess($result);
         }
     }

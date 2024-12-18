@@ -12,7 +12,7 @@
 <body class="p-6">
 
   <?php require './partial/alert.php' ?>
-  
+  <?php require './partial/add.php' ?>
   <div class="overflow-x-auto">
     <table class="table table-zebra">
       <thead>
